@@ -4,6 +4,8 @@ Scripture Scroller is an offline Omarchy 4 bar widget that gently cycles through
 
 No account, API key, network request, daemon, or install hook is required. The selected BSB passages are bundled with the plugin and the Bible text is in the public domain.
 
+![Scripture Scroller showing Hebrews 10:23 in the Omarchy bar](assets/scripture-scroller.png)
+
 ## Install
 
 ```bash
