@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "id": "networkchuck.scripture-scroller",
+  "name": "Scripture Scroller",
+  "version": "1.0.0",
+  "author": "Chuck Keith",
+  "license": "MIT",
+  "description": "One hundred encouraging Berean Standard Bible passages in a peaceful, offline bar ticker.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "Widget.qml"
+  },
+  "barWidget": {
+    "displayName": "Scripture Scroller",
+    "description": "An offline ticker of encouraging Berean Standard Bible passages.",
+    "category": "Info",
+    "allowMultiple": false,
+    "defaultSection": "center",
+    "defaults": {
+      "rotationIntervalSec": 30,
+      "maxWidth": 420,
+      "scrollSpeed": 45,
+      "pauseOnHover": true
+    },
+    "schema": [
+      {
+        "key": "rotationIntervalSec",
+        "type": "integer",
+        "label": "Passage interval (seconds)",
+        "description": "How often a new passage appears.",
+        "min": 10,
+        "max": 300,
+        "step": 5,
+        "defaultValue": 30
+      },
+      {
+        "key": "maxWidth",
+        "type": "integer",
+        "label": "Ticker width (pixels)",
+        "description": "Width of the scrolling passage on a horizontal bar.",
+        "min": 200,
+        "max": 800,
+        "step": 20,
+        "defaultValue": 420
+      },
+      {
+        "key": "scrollSpeed",
+        "type": "integer",
+        "label": "Scroll speed (pixels/second)",
+        "description": "Minimum ticker speed. Long passages accelerate enough to finish before rotation.",
+        "min": 20,
+        "max": 120,
+        "step": 5,
+        "defaultValue": 45
+      },
+      {
+        "key": "pauseOnHover",
+        "type": "boolean",
+        "label": "Pause on hover",
+        "description": "Pause the ticker and rotation while the pointer is over the widget.",
+        "defaultValue": true
+      }
+    ]
+  }
+}
