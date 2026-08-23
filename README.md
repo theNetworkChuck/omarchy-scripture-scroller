@@ -46,6 +46,14 @@ Supported settings:
 
 Long passages automatically accelerate enough to cross the ticker before the next rotation. Vertical bars show a compact Bible icon and expose the current passage in the tooltip.
 
+## Remove
+
+```bash
+omarchy plugin remove networkchuck.scripture-scroller
+```
+
+Omarchy removes the bar entry before uninstalling the plugin. Scripture Scroller creates no background services, caches, credentials, or other files that need separate cleanup.
+
 ## Scripture source
 
 The passage text was extracted without paraphrasing from the official Berean Standard Bible plain-text dataset:
