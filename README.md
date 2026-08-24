@@ -17,10 +17,12 @@ The widget defaults to the center section. Omarchy stores its settings and place
 
 ## Controls
 
-- Left-click opens the current BSB chapter in your default browser.
+- Left-click opens the current passage in a native Omarchy popup with Previous and Next controls.
 - Right-click advances to the next passage.
 - Scroll up returns to the previous passage in the current shuffle; scroll down advances.
 - Hover shows the complete passage and pauses the ticker by default.
+
+The ticker and automatic passage rotation pause while the popup is open, then resume with a fresh interval when it closes. Clicking outside the popup dismisses it.
 
 The widget shuffles all 100 passages without repetition before beginning a new shuffle. It also prevents the last passage of one cycle from immediately becoming the first passage of the next.
 
@@ -77,7 +79,7 @@ For the architecture, design decisions, data-update procedure, test matrix, rele
 
 ## Project status
 
-- Latest release: [v1.0.0](https://github.com/theNetworkChuck/omarchy-scripture-scroller/releases/tag/v1.0.0)
+- Latest release: [v1.1.0](https://github.com/theNetworkChuck/omarchy-scripture-scroller/releases/tag/v1.1.0)
 - Marketplace listing: [Scripture Scroller on Omarchy Plugins](https://omarchyplugins.com/plugin.html?id=networkchuck.scripture-scroller)
 - Publication record: [HANCORE-linux/omarchy-plugin-marketplace#1956](https://github.com/HANCORE-linux/omarchy-plugin-marketplace/issues/1956)
 

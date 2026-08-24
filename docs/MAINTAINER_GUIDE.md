@@ -34,7 +34,7 @@ The plugin deliberately does not:
 | Path | Responsibility |
 |---|---|
 | `manifest.json` | Plugin identity, entry point, defaults, and settings schema |
-| `Widget.qml` | Bar layout, timer, marquee, navigation, tooltip, and browser action |
+| `Widget.qml` | Bar layout, timer, marquee, navigation, tooltip, and passage popup |
 | `Passages.js` | The 100 exact BSB references and passage strings |
 | `tests/validate_passages.py` | Structural checks and optional exact source-text comparison |
 | `assets/scripture-scroller.png` | User-facing and marketplace screenshot |
@@ -53,7 +53,8 @@ The important state is intentionally small:
 - `order` holds the shuffled passage indexes for the current cycle;
 - `orderIndex` points at the displayed entry and enables wheel-up history within that cycle;
 - `currentPassage` holds the active reference and text;
-- `hovered` combines with `pauseOnHover` to pause both animation and rotation.
+- `hovered` combines with `pauseOnHover` to pause both animation and rotation;
+- `popupOpen` controls the native passage popup and pauses movement and rotation while it is visible.
 
 When the cycle is exhausted, a new shuffle is generated. If its first index matches the previous cycle's last index, the first two indexes are exchanged. The result is one appearance per passage per cycle with no immediate repeat at the boundary. The shuffle is session state; it is not persisted across shell restarts.
 
@@ -65,13 +66,13 @@ On a vertical bar the widget uses the normal bar size and shows a compact Bible 
 
 | Input | Result |
 |---|---|
-| Left click | Opens the current BSB chapter through `omarchy-launch-browser` |
+| Left click | Toggles a native popup containing the current passage and Previous/Next controls |
 | Right click | Advances and restarts the 30-second timer |
 | Wheel down | Advances and restarts the timer |
 | Wheel up | Returns within the current shuffle when history exists |
 | Hover | Shows the complete passage and controls; pauses by default |
 
-The browser URL is derived from the book and chapter in the reference and points to Bible Hub's BSB chapter page. `Psalm` is mapped to the site's `psalms` path. A malformed reference falls back to <https://berean.bible/>.
+The popup uses Omarchy's `PopupCard`, so it inherits the active theme, follows the bar on horizontal or vertical edges, coordinates with other bar popouts, and closes on an outside click. Previous is disabled at the beginning of the active shuffle. Popup navigation keeps the card open and restarts the passage timer; closing the card resumes both rotation and marquee motion with a fresh interval.
 
 ## Manifest and settings contract
 
@@ -125,9 +126,10 @@ For any QML behavior change, also perform a live shell check:
 1. Install or update the development copy.
 2. Confirm the widget renders in a horizontal bar without clipping adjacent modules.
 3. Leave it visible for more than one configured interval and confirm rotation.
-4. Test hover pause and tooltip, right click, both wheel directions, and left-click browser launch.
-5. Temporarily use a vertical bar or inspect in a vertical test configuration to verify compact mode.
-6. Inspect recent shell logs for QML errors.
+4. Test hover pause and tooltip, right click, both wheel directions, and left-click popup toggling.
+5. Confirm the popup wraps long passages, Previous/Next follow the active shuffle, outside-click dismissal works, and rotation remains paused until the popup closes.
+6. Temporarily use a vertical bar or inspect in a vertical test configuration to verify compact mode and popup placement.
+7. Inspect recent shell logs for QML errors.
 
 For v1.0.0, the project passed manifest validation, the 100-entry structural test, exact comparison against the canonical dataset, live rendering, automatic rotation, and a clean shell-log check.
 
@@ -175,7 +177,7 @@ Marketplace validation is commit-bound. Any repository commit after a scan—eve
 
 ## Security and privacy boundary
 
-The plugin code runs with the same user privileges as the Omarchy shell; it is not sandboxed. Its only external action is a user-initiated browser launch. Scripture is read from the bundled JavaScript file, and the timer, shuffle, and animation remain in memory.
+The plugin code runs with the same user privileges as the Omarchy shell; it is not sandboxed. Scripture is read from the bundled JavaScript file, and the popup, timer, shuffle, and animation remain in memory. The plugin performs no external actions.
 
 Review changes carefully if they introduce any network access, shell execution, file writes, credentials, persistent state, new QML imports, or external dependencies. Such changes alter the documented privacy and security boundary and require updated user documentation plus a new marketplace security scan.
 
@@ -193,9 +195,9 @@ Move the pointer off the widget if `pauseOnHover` is enabled. Very short text ma
 
 There is no earlier entry before the first passage in a newly generated shuffle. History is intentionally limited to the active cycle and is reset on a shell restart.
 
-### A browser page does not match the verse
+### The passage popup does not open
 
-The click target is the BSB chapter, not a verse anchor. Check the reference parser and Bible Hub book slug if adding a book name whose URL does not follow the current lowercase-and-underscore rule.
+Confirm the widget is enabled, then rescan plugins with `omarchy-shell shell rescanPlugins`. Inspect recent shell logs for a QML error if left-click still does not open the popup.
 
 ### Source validation reports a mismatch
 

@@ -4,7 +4,17 @@ All notable changes to Scripture Scroller are recorded here. Versions follow [Se
 
 ## Unreleased
 
+## 1.1.0 - 2026-08-23
+
+### Added
+
+- Added a native, theme-aware passage popup with Previous and Next navigation.
 - Added comprehensive architecture, maintenance, testing, release, marketplace, and troubleshooting documentation.
+
+### Changed
+
+- Left-click now opens the bundled passage locally instead of launching a web browser.
+- Passage rotation and marquee motion pause while the popup is open.
 
 ## 1.0.0 - 2026-08-23
 

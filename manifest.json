@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "networkchuck.scripture-scroller",
   "name": "Scripture Scroller",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Chuck Keith",
   "license": "MIT",
   "description": "One hundred encouraging Berean Standard Bible passages in a peaceful, offline bar ticker.",

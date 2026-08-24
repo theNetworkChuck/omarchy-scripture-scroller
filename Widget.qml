@@ -12,12 +12,13 @@ BarWidget {
   property int orderIndex: -1
   property var currentPassage: null
   property bool hovered: false
+  property bool popupOpen: false
 
   readonly property int rotationIntervalSec: clampedInteger("rotationIntervalSec", 30, 10, 300)
   readonly property int maxLabelWidth: clampedInteger("maxWidth", 420, 200, 800)
   readonly property int scrollSpeed: clampedInteger("scrollSpeed", 45, 20, 120)
   readonly property bool pauseOnHover: Boolean(setting("pauseOnHover", true))
-  readonly property bool interactionPaused: pauseOnHover && hovered
+  readonly property bool interactionPaused: popupOpen || (pauseOnHover && hovered)
   readonly property string displayText: currentPassage
     ? currentPassage.text + "  —  " + currentPassage.reference + " · BSB"
     : "Scripture Scroller"
@@ -71,6 +72,16 @@ BarWidget {
     rotationTimer.restart()
   }
 
+  function close() {
+    popupOpen = false
+  }
+
+  function togglePopup() {
+    if (!currentPassage) return
+    if (bar) bar.hideTooltip(root)
+    popupOpen = !popupOpen
+  }
+
   function restartMarquee() {
     marquee.stop()
     tickerText.x = tickerClip.width
@@ -79,19 +90,6 @@ BarWidget {
         if (!root.vertical && !root.interactionPaused && root.currentPassage) marquee.start()
       })
     }
-  }
-
-  function passageUrl(reference) {
-    var match = /^(.+?)\s+(\d+):/.exec(reference)
-    if (!match) return "https://berean.bible/"
-    var book = match[1].toLowerCase().replace(/\s+/g, "_")
-    if (book === "psalm") book = "psalms"
-    return "https://biblehub.com/bsb/" + book + "/" + match[2] + ".htm"
-  }
-
-  function openCurrentPassage() {
-    if (!currentPassage) return
-    Quickshell.execDetached(["omarchy-launch-browser", passageUrl(currentPassage.reference)])
   }
 
   onCurrentPassageChanged: restartMarquee()
@@ -162,7 +160,7 @@ BarWidget {
     onEntered: {
       root.hovered = true
       if (root.bar) {
-        root.bar.showTooltip(root, root.displayText + "\nLeft-click: open chapter · Right-click: next · Wheel: previous/next")
+        root.bar.showTooltip(root, root.displayText + "\nLeft-click: show passage · Right-click: next · Wheel: previous/next")
       }
     }
     onExited: {
@@ -171,11 +169,81 @@ BarWidget {
     }
     onClicked: function(mouse) {
       if (mouse.button === Qt.RightButton) root.advance()
-      else root.openCurrentPassage()
+      else root.togglePopup()
     }
     onWheel: function(wheel) {
       if (wheel.angleDelta.y > 0) root.previous()
       else if (wheel.angleDelta.y < 0) root.advance()
+    }
+  }
+
+  PopupCard {
+    id: popup
+    anchorItem: root
+    bar: root.bar
+    owner: root
+    open: root.popupOpen
+    contentWidth: popup.fittedContentWidth(Style.space(420))
+    contentHeight: popup.fittedContentHeight(passageColumn.implicitHeight)
+
+    Column {
+      id: passageColumn
+      anchors.fill: parent
+      spacing: Style.space(10)
+
+      Text {
+        width: parent.width
+        text: root.currentPassage ? root.currentPassage.reference : "Scripture"
+        color: Color.popups.text
+        font.family: root.bar ? root.bar.fontFamily : Style.font.family
+        font.pixelSize: Style.font.subtitle
+        font.bold: true
+        renderType: Text.NativeRendering
+      }
+
+      Text {
+        width: parent.width
+        text: root.currentPassage ? root.currentPassage.text : ""
+        color: Color.popups.text
+        font.family: root.bar ? root.bar.fontFamily : Style.font.family
+        font.pixelSize: Style.font.body
+        wrapMode: Text.WordWrap
+        renderType: Text.NativeRendering
+      }
+
+      Text {
+        width: parent.width
+        text: "Berean Standard Bible (BSB)"
+        color: Qt.darker(Color.popups.text, 1.4)
+        font.family: root.bar ? root.bar.fontFamily : Style.font.family
+        font.pixelSize: Style.font.caption
+        renderType: Text.NativeRendering
+      }
+
+      Row {
+        anchors.horizontalCenter: parent.horizontalCenter
+        spacing: Style.space(8)
+
+        Button {
+          text: "Previous"
+          iconText: "󰒮"
+          foreground: Color.popups.text
+          bordered: true
+          enabled: root.orderIndex > 0
+          opacity: enabled ? 1.0 : 0.4
+          onClicked: root.previous()
+        }
+
+        Button {
+          text: "Next"
+          iconText: "󰒭"
+          foreground: Color.popups.text
+          bordered: true
+          enabled: root.currentPassage !== null
+          opacity: enabled ? 1.0 : 0.4
+          onClicked: root.advance()
+        }
+      }
     }
   }
 }
