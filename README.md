@@ -71,7 +71,14 @@ omarchy plugin validate .
 python3 tests/validate_passages.py /tmp/bsb-scripture-scroller.txt
 ```
 
-The second command is optional and compares every bundled passage byte-for-byte with an official `bsb.txt` download.
+The second command is optional and compares every bundled passage exactly with an official `bsb.txt` download after removing the dataset's line-ending and outer whitespace.
+
+For the architecture, design decisions, data-update procedure, test matrix, release checklist, marketplace workflow, and troubleshooting notes, see the [maintainer guide](docs/MAINTAINER_GUIDE.md). Release history is recorded in [CHANGELOG.md](CHANGELOG.md).
+
+## Project status
+
+- Latest release: [v1.0.0](https://github.com/theNetworkChuck/omarchy-scripture-scroller/releases/tag/v1.0.0)
+- Omarchy marketplace submission: [HANCORE-linux/omarchy-plugin-marketplace#1956](https://github.com/HANCORE-linux/omarchy-plugin-marketplace/issues/1956)
 
 ## License
 
