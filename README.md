@@ -78,7 +78,8 @@ For the architecture, design decisions, data-update procedure, test matrix, rele
 ## Project status
 
 - Latest release: [v1.0.0](https://github.com/theNetworkChuck/omarchy-scripture-scroller/releases/tag/v1.0.0)
-- Omarchy marketplace submission: [HANCORE-linux/omarchy-plugin-marketplace#1956](https://github.com/HANCORE-linux/omarchy-plugin-marketplace/issues/1956)
+- Marketplace listing: [Scripture Scroller on Omarchy Plugins](https://omarchyplugins.com/plugin.html?id=networkchuck.scripture-scroller)
+- Publication record: [HANCORE-linux/omarchy-plugin-marketplace#1956](https://github.com/HANCORE-linux/omarchy-plugin-marketplace/issues/1956)
 
 ## License
 

@@ -10,7 +10,8 @@ This document preserves the implementation decisions and operating procedures be
 | Plugin kind | Omarchy 4 `bar-widget` |
 | Repository | <https://github.com/theNetworkChuck/omarchy-scripture-scroller> |
 | First release | `v1.0.0`, 2026-08-23 |
-| Marketplace submission | <https://github.com/HANCORE-linux/omarchy-plugin-marketplace/issues/1956> |
+| Marketplace listing | <https://omarchyplugins.com/plugin.html?id=networkchuck.scripture-scroller> |
+| Publication record | <https://github.com/HANCORE-linux/omarchy-plugin-marketplace/issues/1956> |
 | Code license | MIT |
 | Scripture translation | Berean Standard Bible (BSB), public domain |
 
@@ -206,4 +207,4 @@ Push all intended changes, edit the existing submission issue to rerun validatio
 
 ## Current publication state
 
-As of 2026-08-23, v1.0.0 is publicly released and marketplace submission [#1956](https://github.com/HANCORE-linux/omarchy-plugin-marketplace/issues/1956) is awaiting a human listing decision after automated validation. The issue is the source of truth for its current state.
+As of 2026-08-23, v1.0.0 is publicly released and [listed in the Omarchy plugin marketplace](https://omarchyplugins.com/plugin.html?id=networkchuck.scripture-scroller). Marketplace submission [#1956](https://github.com/HANCORE-linux/omarchy-plugin-marketplace/issues/1956) records its automated validation, security baseline, maintainer approval, and publication. Use the marketplace's **Plugin verification** issue form for later exact-commit updates.
